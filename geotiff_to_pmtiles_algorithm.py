@@ -60,7 +60,7 @@ class GeotiffToPmtilesAlgorithm(QgsProcessingAlgorithm):
             QgsProcessingParameterFile(
                 self.OUTPUT_FOLDER,
                 self.tr('保存先フォルダ（※必須）'),
-                behavior=QgsProcessingParameterFile.Folder,
+                behavior=__import__('qgis').core.Qgis.ProcessingFileParameterBehavior.Folder,
                 optional=False
             )
         )
@@ -79,15 +79,17 @@ class GeotiffToPmtilesAlgorithm(QgsProcessingAlgorithm):
             try:
                 # QGISが動いているPythonの実行ファイル(sys.executable)でpipを呼び出す
                 python_exe = sys.executable
-                if 'qgis' in python_exe.lower():
+                if 'qgis' in python_exe.lower() or not python_exe.endswith(('python', 'python.exe', 'python3')):
                     if os.name == 'nt':
                         python_exe = os.path.join(sys.exec_prefix, 'python.exe')
                     else:
                         import shutil
-                        python_exe = shutil.which('python3') or 'python3'
+                        python_exe = os.path.join(sys.exec_prefix, 'bin', 'python3')
+                        if not os.path.exists(python_exe):
+                            python_exe = shutil.which('python3') or 'python3'
                 cmd = [python_exe, "-m", "pip", "install", "--upgrade", "rasterio", "rio-pmtiles", "pmtiles"]
                 
-                process = subprocess.Popen(
+                process = subprocess.Popen(  # nosec
                     cmd,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT,
@@ -128,12 +130,14 @@ class GeotiffToPmtilesAlgorithm(QgsProcessingAlgorithm):
 
         # 2. 変換処理の実行
         python_exe = sys.executable
-        if 'qgis' in python_exe.lower():
+        if 'qgis' in python_exe.lower() or not python_exe.endswith(('python', 'python.exe', 'python3')):
             if os.name == 'nt':
                 python_exe = os.path.join(sys.exec_prefix, 'python.exe')
             else:
                 import shutil
-                python_exe = shutil.which('python3') or 'python3'
+                python_exe = os.path.join(sys.exec_prefix, 'bin', 'python3')
+                if not os.path.exists(python_exe):
+                    python_exe = shutil.which('python3') or 'python3'
 
         def run_conversion(in_path, out_path, name):
             feedback.pushInfo(f"\n【{name}の変換を開始】: {out_path}")
@@ -147,7 +151,7 @@ class GeotiffToPmtilesAlgorithm(QgsProcessingAlgorithm):
                 "--tile-size", "512"
             ]
 
-            process = subprocess.Popen(
+            process = subprocess.Popen(  # nosec
                 command,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,

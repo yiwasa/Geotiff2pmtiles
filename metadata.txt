@@ -2,15 +2,15 @@
 name=GeoTIFF2PMTiles
 qgisMinimumVersion=3.0
 description=Converts a pair of left and right GeoTIFF images to raster PMTiles for Stereo PMTiles Viewer.
-version=1.0
+version=1.1
 author=Y. Iwasa
 email=yiwasa0607@gmail.com
-homepage=https://yiwasa.github.io/StereoPMTilesViewer/
-tracker=https://github.com/yiwasa/StereoPMTilesViewer/issues
+homepage=https://github.com/yiwasa/Geotiff2pmtiles
+tracker=https://github.com/yiwasa/Geotiff2pmtiles/issues
 
 about=GeoTIFF2PMTiles converts a pair of georeferenced left and right GeoTIFF images to raster PMTiles for use with Stereo PMTiles Viewer. The plugin creates left.pmtiles and right.pmtiles using JPEG tiles with a tile size of 512 pixels. It checks for the required Python libraries, including rasterio, rio-pmtiles, and pmtiles, and attempts to install them automatically when necessary. / GeoTIFF2PMTilesは、位置情報を持つ左右一組のGeoTIFF画像を、Stereo PMTiles Viewerで表示するためのラスターPMTilesに一括変換するQGISプラグインです。JPEG形式、タイルサイズ512ピクセルでleft.pmtilesとright.pmtilesを生成します。変換に必要なrasterio、rio-pmtiles、pmtilesを確認し、必要に応じて自動インストールを試みます。
 
-repository=https://github.com/yiwasa/StereoPMTilesViewer
+repository=https://github.com/yiwasa/Geotiff2pmtiles
 
 tags=PMTiles, GeoTIFF, raster, stereo, stereoscopic, terrain, field survey
 
